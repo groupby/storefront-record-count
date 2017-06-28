@@ -7,6 +7,14 @@ suite('RecordCount', ({ expect, spy }) => {
 
   beforeEach(() => recordCount = new RecordCount());
 
+  describe('constructor()', () => {
+    describe('props', () => {
+      it('should set default props', () => {
+        expect(recordCount.props).to.eql({ labels: { noResults: 'No results found' } });
+      });
+    });
+  });
+
   describe('init()', () => {
     it('should listen for events', () => {
       const on = spy();
@@ -38,7 +46,7 @@ suite('RecordCount', ({ expect, spy }) => {
 
       recordCount.updatePageRange(<any>{ from, to, a: 'b' });
 
-      expect(set).to.be.calledWith({ to, from });
+      expect(set).to.be.calledWith({ to, from, hasResults: true });
     });
   });
 });

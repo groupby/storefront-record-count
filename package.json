@@ -52,18 +52,18 @@
     }
   },
   "devDependencies": {
-    "@types/chai": "^4.0.0",
-    "@types/node": "^7.0.29",
-    "@types/sinon": "^2.3.1",
+    "@types/chai": "^4.0.1",
+    "@types/node": "^8.0.4",
+    "@types/sinon": "^2.3.2",
     "@types/sinon-chai": "^2.7.28",
     "chai": "^4.0.2",
     "condition-circle": "^1.5.0",
     "cz-conventional-changelog": "^2.0.0",
-    "husky": "^0.13.3",
-    "mocha-suite": "^1.0.9",
+    "husky": "^0.14.1",
+    "mocha-suite": "^1.0.11",
     "mock-require": "^2.0.2",
     "re-start": "^1.14.8",
-    "sinon": "^2.3.4",
+    "sinon": "^2.3.5",
     "sinon-chai": "^2.11.0",
     "start-simple-cli": "^4.1.1",
     "tslint": "^5.4.3",
@@ -71,6 +71,6 @@
     "typescript": "^2.3.3"
   },
   "dependencies": {
-    "@storefront/core": "^1.2.2"
+    "@storefront/core": "^1.2.20"
   }
 }

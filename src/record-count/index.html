@@ -1,3 +1,4 @@
 <yield>
-  <h2>{ $recordCount.from } - { $recordCount.to } of { $recordCount.total } Products</h2>
+  <h2 if="{ !$recordCount.hasResults }">{ props.labels.noResults }</h2>
+  <h2 if="{ $recordCount.hasResults }">{ $recordCount.from } - { $recordCount.to } of { $recordCount.total } Products</h2>
 </yield>
