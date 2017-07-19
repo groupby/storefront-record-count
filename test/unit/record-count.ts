@@ -2,10 +2,13 @@ import { Events } from '@storefront/core';
 import RecordCount from '../../src/record-count';
 import suite from './_suite';
 
-suite('RecordCount', ({ expect, spy }) => {
+suite('RecordCount', ({ expect, spy, itShouldBeConfigurable, itShouldHaveAlias }) => {
   let recordCount: RecordCount;
 
   beforeEach(() => recordCount = new RecordCount());
+
+  itShouldBeConfigurable(RecordCount);
+  itShouldHaveAlias(RecordCount, 'recordCount');
 
   describe('constructor()', () => {
     describe('props', () => {
