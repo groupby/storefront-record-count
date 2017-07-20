@@ -27,27 +27,27 @@ This module is meant to be used in a `node` environment which is bundled for use
 Use `npm` or `yarn` to install in a `node` project that uses `webpack`, `browserify` or similar.
 
 ```sh
-npm install --save @storefront/query
+npm install --save @storefront/record-count
 # or
-yarn add @storefront/query
+yarn add @storefront/record-count
 ```
 
 ## Usage
 
-This module provides the `<gb-query>` component for use with StoreFront.
+This module provides the `<gb-record-count>` component for use with StoreFront.
 
 ### Mount tag
 
 ```html
 <!-- index.html -->
 <body>
-  <gb-query></gb-query>
+  <gb-record-count></gb-record-count>
 </body>
 ```
 
 ```js
 // index.js
-storefront.mount('gb-query');
+storefront.mount('gb-record-count');
 ```
 
 ## Running the tests
