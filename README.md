@@ -1,4 +1,6 @@
-# storefront-record-count
+# StoreFront record-count
+
+StoreFront `<gb-record-count>` component
 
 [![npm (scoped with tag)](https://img.shields.io/npm/v/@storefront/record-count.svg?style=flat-square)](https://www.npmjs.com/package/@storefront/record-count)
 [![CircleCI branch](https://img.shields.io/circleci/project/github/groupby/storefront-record-count/master.svg?style=flat-square)](https://circleci.com/gh/groupby/storefront-record-count/tree/master)
@@ -11,4 +13,66 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
 [![Greenkeeper badge](https://badges.greenkeeper.io/groupby/storefront-record-count.svg)](https://greenkeeper.io/)
 
-StoreFront record-count component
+## Getting Started
+
+This module requires [`@storefront/core`](https://www.npmjs.com/package/@storefront/core) for the component to render
+and receive data from GroupBy microservices.
+
+### Prerequisites
+
+This module is meant to be used in a `node` environment which is bundled for use in the browser.
+
+### Installing
+
+Use `npm` or `yarn` to install in a `node` project that uses `webpack`, `browserify` or similar.
+
+```sh
+npm install --save @storefront/query
+# or
+yarn add @storefront/query
+```
+
+## Usage
+
+This module provides the `<gb-query>` component for use with StoreFront.
+
+### Mount tag
+
+```html
+<!-- index.html -->
+<body>
+  <gb-query></gb-query>
+</body>
+```
+
+```js
+// index.js
+storefront.mount('gb-query');
+```
+
+## Running the tests
+
+Tests can be run to generate coverage information.
+Once run, open `coverage/index.html` in your browser to view coverage breakdown.
+
+```sh
+npm start coverage
+# or
+yarn start coverage
+```
+
+Tests can be run continuously for development
+
+```sh
+npm run tdd
+# or
+yarn tdd
+```
+
+Tests can also be run alone
+
+```sh
+npm test
+# or
+yarn test
+```
