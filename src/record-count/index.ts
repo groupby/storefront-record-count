@@ -23,7 +23,7 @@ class RecordCount {
 
 interface RecordCount extends Tag<RecordCount.Props, RecordCount.State> { }
 namespace RecordCount {
-  export interface Props {
+  export interface Props extends Tag.Props {
     labels?: {
       noResults?: string
     };
