@@ -1,11 +1,19 @@
-import { Events } from '@storefront/core';
+import { Events, Selectors } from '@storefront/core';
 import RecordCount from '../../src/record-count';
 import suite from './_suite';
 
-suite('RecordCount', ({ expect, spy, itShouldBeConfigurable, itShouldHaveAlias }) => {
-  let recordCount: RecordCount;
+const QUERY = 'eyyo';
+const STATE = { a: 'b' };
 
-  beforeEach(() => recordCount = new RecordCount());
+suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveAlias }) => {
+  let recordCount: RecordCount;
+  let currentQuery: sinon.SinonStub;
+
+  beforeEach(() => {
+    currentQuery = stub(Selectors, 'currentQuery').returns(QUERY);
+    RecordCount.prototype.flux = <any>{ store: { getState: () => STATE } };
+    recordCount = new RecordCount();
+  });
 
   itShouldBeConfigurable(RecordCount);
   itShouldHaveAlias(RecordCount, 'recordCount');
@@ -16,13 +24,19 @@ suite('RecordCount', ({ expect, spy, itShouldBeConfigurable, itShouldHaveAlias }
         expect(recordCount.props).to.eql({ labels: { noResults: 'No results found' } });
       });
     });
+
+    describe('state', () => {
+      it('should set default state', () => {
+        expect(recordCount.state).to.eql({ query: QUERY });
+      });
+    });
   });
 
   describe('init()', () => {
     it('should listen for events', () => {
       const on = spy();
-      recordCount.flux = <any>{ on };
-      recordCount.expose = () => null;
+      recordCount.flux = <any>{ on, store: { getState: () => null } };
+      recordCount.state = {};
 
       recordCount.init();
 
@@ -50,6 +64,19 @@ suite('RecordCount', ({ expect, spy, itShouldBeConfigurable, itShouldHaveAlias }
       recordCount.updatePageRange(<any>{ from, to, a: 'b' });
 
       expect(set).to.be.calledWith({ to, from, hasResults: true });
+    });
+  });
+
+  describe('updateQuery()', () => {
+    it('should set query', () => {
+      const set = recordCount.set = spy();
+      const getState = spy();
+      recordCount.flux = <any>{ store: { getState } };
+
+      recordCount.updateQuery();
+
+      expect(getState).to.be.called;
+      expect(set).to.be.calledWith({ query: QUERY });
     });
   });
 });
