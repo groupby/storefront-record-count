@@ -11,7 +11,7 @@ class RecordCount {
     }
   };
   state: RecordCount.State = {
-    query: Selectors.currentQuery(this.flux.store.getState())
+    query: this.select(Selectors.currentQuery)
   };
 
   init() {
@@ -24,7 +24,7 @@ class RecordCount {
 
   updatePageRange = ({ from, to }: Store.Page) => this.set({ from, to, hasResults: !!to });
 
-  updateQuery = () => this.set({ query: Selectors.currentQuery(this.flux.store.getState()) });
+  updateQuery = () => this.set({ query: this.select(Selectors.currentQuery) });
 }
 
 interface RecordCount extends Tag<RecordCount.Props, RecordCount.State> { }

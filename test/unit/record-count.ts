@@ -3,15 +3,14 @@ import RecordCount from '../../src/record-count';
 import suite from './_suite';
 
 const QUERY = 'eyyo';
-const STATE = { a: 'b' };
 
 suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveAlias }) => {
   let recordCount: RecordCount;
-  let currentQuery: sinon.SinonStub;
+  let select: sinon.SinonSpy;
 
   beforeEach(() => {
-    currentQuery = stub(Selectors, 'currentQuery').returns(QUERY);
-    RecordCount.prototype.flux = <any>{ store: { getState: () => STATE } };
+    select = RecordCount.prototype.select = spy(() => QUERY);
+    RecordCount.prototype.flux = <any>{};
     recordCount = new RecordCount();
   });
 
@@ -70,12 +69,10 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
   describe('updateQuery()', () => {
     it('should set query', () => {
       const set = recordCount.set = spy();
-      const getState = spy();
-      recordCount.flux = <any>{ store: { getState } };
 
       recordCount.updateQuery();
 
-      expect(getState).to.be.called;
+      expect(select).to.be.calledWith(Selectors.currentQuery);
       expect(set).to.be.calledWith({ query: QUERY });
     });
   });
