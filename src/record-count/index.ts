@@ -11,10 +11,15 @@ class RecordCount {
     }
   };
   state: RecordCount.State = {
+    total: this.select(Selectors.recordCount),
     query: this.select(Selectors.currentQuery)
   };
 
   init() {
+    // force update on start to avoid race condition issues
+    // total and query already set in constructor
+    this.updatePageRange(this.select(Selectors.pageObject));
+
     this.flux.on(Events.RECORD_COUNT_UPDATED, this.updateRecordCount);
     this.flux.on(Events.PAGE_UPDATED, this.updatePageRange);
     this.flux.on(Events.PRODUCTS_UPDATED, this.updateQuery);

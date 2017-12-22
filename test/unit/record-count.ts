@@ -14,6 +14,10 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
     recordCount = new RecordCount();
   });
 
+  afterEach(() => {
+    delete RecordCount.prototype.select;
+  });
+
   itShouldBeConfigurable(RecordCount);
   itShouldHaveAlias(RecordCount, 'recordCount');
 
@@ -26,7 +30,10 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
 
     describe('state', () => {
       it('should set default state', () => {
-        expect(recordCount.state).to.eql({ query: QUERY });
+        expect(recordCount.state).to.eql({
+          query: QUERY,
+          total: QUERY,
+        });
       });
     });
   });
@@ -34,6 +41,9 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
   describe('init()', () => {
     it('should listen for events', () => {
       const on = spy();
+      recordCount.updatePageRange = () => null;
+      recordCount.updateRecordCount = () => null;
+      recordCount.updateQuery = () => null;
       recordCount.flux = <any>{ on, store: { getState: () => null } };
       recordCount.state = {};
 
@@ -41,6 +51,17 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
 
       expect(on).to.be.calledWith(Events.RECORD_COUNT_UPDATED, recordCount.updateRecordCount);
       expect(on).to.be.calledWith(Events.PAGE_UPDATED, recordCount.updatePageRange);
+    });
+
+    it('should call updatePageRange', () => {
+      const updatePageRange = recordCount.updatePageRange = spy();
+      recordCount.flux = <any>{ on: () => null, store: { getState: () => null } };
+      recordCount.state = {};
+
+      recordCount.init();
+
+      expect(updatePageRange).to.be.calledOnce;
+      expect(select).to.be.calledWithExactly(Selectors.pageObject);
     });
   });
 
