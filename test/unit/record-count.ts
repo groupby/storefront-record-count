@@ -40,23 +40,24 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
 
   describe('init()', () => {
     it('should listen for events', () => {
-      const on = spy();
+      const subscribe = recordCount.subscribe = spy();
       recordCount.updatePageRange = () => null;
       recordCount.updateRecordCount = () => null;
       recordCount.updateQuery = () => null;
-      recordCount.flux = <any>{ on, store: { getState: () => null } };
+      recordCount.flux = <any>{ store: { getState: () => null } };
       recordCount.state = {};
 
       recordCount.init();
 
-      expect(on).to.be.calledWith(Events.RECORD_COUNT_UPDATED, recordCount.updateRecordCount);
-      expect(on).to.be.calledWith(Events.PAGE_UPDATED, recordCount.updatePageRange);
+      expect(subscribe).to.be.calledWith(Events.RECORD_COUNT_UPDATED, recordCount.updateRecordCount);
+      expect(subscribe).to.be.calledWith(Events.PAGE_UPDATED, recordCount.updatePageRange);
     });
 
     it('should call updatePageRange', () => {
       const updatePageRange = recordCount.updatePageRange = spy();
-      recordCount.flux = <any>{ on: () => null, store: { getState: () => null } };
+      recordCount.flux = <any>{ store: { getState: () => null } };
       recordCount.state = {};
+      recordCount.subscribe = () => null;
 
       recordCount.init();
 

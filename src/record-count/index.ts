@@ -20,9 +20,9 @@ class RecordCount {
     // total and query already set in constructor
     this.updatePageRange(this.select(Selectors.pageObject));
 
-    this.flux.on(Events.RECORD_COUNT_UPDATED, this.updateRecordCount);
-    this.flux.on(Events.PAGE_UPDATED, this.updatePageRange);
-    this.flux.on(Events.PRODUCTS_UPDATED, this.updateQuery);
+    this.subscribe(Events.RECORD_COUNT_UPDATED, this.updateRecordCount);
+    this.subscribe(Events.PAGE_UPDATED, this.updatePageRange);
+    this.subscribe(Events.PRODUCTS_UPDATED, this.updateQuery);
   }
 
   updateRecordCount = (total: number) => this.set({ total });
