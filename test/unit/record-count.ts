@@ -4,7 +4,7 @@ import suite from './_suite';
 
 const QUERY = 'eyyo';
 
-suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveAlias }) => {
+suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldProvideAlias }) => {
   let recordCount: RecordCount;
   let select: sinon.SinonSpy;
 
@@ -19,7 +19,7 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
   });
 
   itShouldBeConfigurable(RecordCount);
-  itShouldHaveAlias(RecordCount, 'recordCount');
+  itShouldProvideAlias(RecordCount, 'recordCount');
 
   describe('constructor()', () => {
     describe('props', () => {
@@ -40,26 +40,23 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
 
   describe('init()', () => {
     it('should listen for events', () => {
-      const subscribe = recordCount.subscribe = spy();
+      const subscribe = (recordCount.subscribe = spy());
       recordCount.updatePageRange = () => null;
       recordCount.updateRecordCount = () => null;
       recordCount.updateQuery = () => null;
-      recordCount.flux = <any>{ store: { getState: () => null } };
-      recordCount.state = {};
 
       recordCount.init();
 
       expect(subscribe).to.be.calledWith(Events.RECORD_COUNT_UPDATED, recordCount.updateRecordCount);
       expect(subscribe).to.be.calledWith(Events.PAGE_UPDATED, recordCount.updatePageRange);
     });
+  });
 
+  describe('onBeforeMount()', () => {
     it('should call updatePageRange', () => {
-      const updatePageRange = recordCount.updatePageRange = spy();
-      recordCount.flux = <any>{ store: { getState: () => null } };
-      recordCount.state = {};
-      recordCount.subscribe = () => null;
+      const updatePageRange = (recordCount.updatePageRange = spy());
 
-      recordCount.init();
+      recordCount.onBeforeMount();
 
       expect(updatePageRange).to.be.calledOnce;
       expect(select).to.be.calledWithExactly(Selectors.pageObject);
@@ -68,7 +65,7 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
 
   describe('updateRecordCount()', () => {
     it('should set total', () => {
-      const set = recordCount.set = spy();
+      const set = (recordCount.set = spy());
 
       recordCount.updateRecordCount(47);
 
@@ -80,7 +77,7 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
     it('should set total', () => {
       const from = 30;
       const to = 50;
-      const set = recordCount.set = spy();
+      const set = (recordCount.set = spy());
 
       recordCount.updatePageRange(<any>{ from, to, a: 'b' });
 
@@ -90,7 +87,7 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldHaveA
 
   describe('updateQuery()', () => {
     it('should set query', () => {
-      const set = recordCount.set = spy();
+      const set = (recordCount.set = spy());
 
       recordCount.updateQuery();
 

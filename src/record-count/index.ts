@@ -1,28 +1,29 @@
-import { alias, configurable, tag, Events, Selectors, Store, Tag } from '@storefront/core';
+import { configurable, provide, tag, Events, Selectors, Store, Tag } from '@storefront/core';
 
 @configurable
-@alias('recordCount')
+@provide('recordCount')
 @tag('gb-record-count', require('./index.html'))
 class RecordCount {
-
   props: RecordCount.Props = {
     labels: {
-      noResults: 'No results found'
-    }
+      noResults: 'No results found',
+    },
   };
   state: RecordCount.State = {
     total: this.select(Selectors.recordCount),
-    query: this.select(Selectors.currentQuery)
+    query: this.select(Selectors.currentQuery),
   };
 
   init() {
-    // force update on start to avoid race condition issues
-    // total and query already set in constructor
-    this.updatePageRange(this.select(Selectors.pageObject));
-
     this.subscribe(Events.RECORD_COUNT_UPDATED, this.updateRecordCount);
     this.subscribe(Events.PAGE_UPDATED, this.updatePageRange);
     this.subscribe(Events.PRODUCTS_UPDATED, this.updateQuery);
+  }
+
+  onBeforeMount() {
+    // force update on start to avoid race condition issues
+    // total and query already set in constructor
+    this.updatePageRange(this.select(Selectors.pageObject));
   }
 
   updateRecordCount = (total: number) => this.set({ total });
@@ -32,11 +33,11 @@ class RecordCount {
   updateQuery = () => this.set({ query: this.select(Selectors.currentQuery) });
 }
 
-interface RecordCount extends Tag<RecordCount.Props, RecordCount.State> { }
+interface RecordCount extends Tag<RecordCount.Props, RecordCount.State> {}
 namespace RecordCount {
   export interface Props extends Tag.Props {
     labels?: {
-      noResults?: string
+      noResults?: string;
     };
   }
   export interface State {
