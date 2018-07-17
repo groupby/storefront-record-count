@@ -18,9 +18,7 @@ class RecordCount {
     this.subscribe(Events.RECORD_COUNT_UPDATED, this.updateRecordCount);
     this.subscribe(Events.PAGE_UPDATED, this.updatePageRange);
     this.subscribe(Events.PRODUCTS_UPDATED, this.updateQuery);
-  }
 
-  onBeforeMount() {
     // force update on start to avoid race condition issues
     // total and query already set in constructor
     this.updatePageRange(this.select(Selectors.pageObject));

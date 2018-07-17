@@ -41,23 +41,14 @@ suite('RecordCount', ({ expect, stub, spy, itShouldBeConfigurable, itShouldProvi
   describe('init()', () => {
     it('should listen for events', () => {
       const subscribe = (recordCount.subscribe = spy());
-      recordCount.updatePageRange = () => null;
+      const updatePageRange = (recordCount.updatePageRange = spy());
       recordCount.updateRecordCount = () => null;
       recordCount.updateQuery = () => null;
 
       recordCount.init();
 
       expect(subscribe).to.be.calledWith(Events.RECORD_COUNT_UPDATED, recordCount.updateRecordCount);
-      expect(subscribe).to.be.calledWith(Events.PAGE_UPDATED, recordCount.updatePageRange);
-    });
-  });
-
-  describe('onBeforeMount()', () => {
-    it('should call updatePageRange', () => {
-      const updatePageRange = (recordCount.updatePageRange = spy());
-
-      recordCount.onBeforeMount();
-
+      expect(subscribe).to.be.calledWith(Events.PAGE_UPDATED, updatePageRange);
       expect(updatePageRange).to.be.calledOnce;
       expect(select).to.be.calledWithExactly(Selectors.pageObject);
     });
