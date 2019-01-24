@@ -1,4 +1,10 @@
-# StoreFront record-count
+# [MOVED] StoreFront record-count
+
+* * *
+
+**This repository has been moved to <https://github.com/groupby/storefront>.**
+
+* * *
 
 StoreFront `<gb-record-count>` component
 
